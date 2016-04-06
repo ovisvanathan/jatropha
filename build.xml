@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+<project name="aatma" default="aatmajar" basedir=".">
+ <!--
+   -  
+   - SETUP ENVIRONMENT VARIABLES FOR THE BUILD
+   -
+   --> 
+ <property name="client.src.dir" value="./src/client" />
+
+ <property name="util.src.dir" value="./src/util" />
+ 
+
+ <property name="derivo.home" value="c:/take/derivo" />
+
+ <property name="take.required.lib" value="c:/take/lib" />
+
+ <property name="take.workdir.bin" value="c:/take/derivo/takeWorkingDir/bin" />
+
+ <property name="aatma.lib" value="E:/swingx/aatma-code/lib" />
+ <property name="build.dir" value="./build/classes" />
+ <property name="src.dir" value="./src" />
+
+ <property name="rcp.lib.dir" value="./lib" />
+
+ <property name="hibernate.lib" value="./lib/hibernate" />
+
+ <property name="derivo.lib" value="c:/take/derivo/lib" />
+
+
+ <property name="derivo.dist" value="${derivo.home}/dist" />
+ <property name="derivo.build.util.dir" value="${derivo.home}/build/util/classes" />
+
+ <property name="derivo.src.out" value="c:/take/derivo/src" />
+
+ <property name="bean.src.dir" value="./trunk/beans" />
+
+
+ <property name="dist" value="./dist" />
+
+ <property name="derivo.dist" value="./dist" />
+
+ <property name="build.util.dir" value="./build/util/classes" />
+ <property name="build.client.dir" value="./build/client/classes" />
+
+
+<property name="classpath.jars.dir" value="" />
+
+<property name="sysclasspath" value="${java.class.path}" />
+
+<property name="sysclasspath" value="" />
+
+<property name="base.dir" value="." />
+
+<property name="generated.files.dir" value="${base.dir}/generated/src" />
+
+<property name="generated.client.files.dir" value="${base.dir}/takeWorkingDir/bin" />
+
+<property name="classpath" value="${sysclasspath};${base.dir}" />
+
+
+ <!-- 
+   -  
+   - SETUP INCLUDE CLASSES; THIS IS WHERE WE WILL DEFINE WHAT CLASSES WILL
+   - BE INCLUDED IN EACH OF OUR JAR FILES
+   -  
+   -->
+ <property name="ejb.jar.includes" value="com/javasrc/licenseserver/ejb/**" />
+ 
+ <!-- 
+   -  
+   - DEFINE OUR CLASSPATH
+   -  
+   -->
+
+ <!--
+   -  
+   - BUILD OPTIONS: ejb.jar, ejb.jar.clean
+   -  
+   -->
+
+
+  <!-- build an .aar file for axis2 web services -->
+  <target name="aatmajar" depends="compile">
+     <delete dir="${build.dir}/META-INF" />
+     <mkdir dir="${build.dir}/META-INF" />
+     <jar jarfile="dist/aatma.jar" manifest="${src.dir}/META-INF/MANIFEST.MF" >
+       <fileset dir="${build.dir}" />
+     </jar>
+
+
+  </target>
+
+
+  <!-- build an .aar file for axis2 web services -->
+  <target name="runjar" depends="compile">
+     <delete dir="${build.dir}/META-INF" />
+     <mkdir dir="${build.dir}/META-INF" />
+
+
+	<!-- copy all the jar files out to the destination directory (dest.dir) -->
+
+
+	 <jar jarfile="dist/aatma.jar"	
+	     manifest="${src.dir}/META-INF/MANIFEST.MF" >
+     
+	   <fileset dir="${build.dir}" />
+
+     </jar>
+
+  </target>
+
+
+
+
+ <target name="compile" depends="prepare">
+   <!-- Compile the java code from ${src.dir} into ${build.dir} -->
+   <echo message="Compiling source code..." />
+
+   <javac srcdir="${src.dir}"                    
+      destdir="${build.dir}" debug="on" debuglevel="lines,vars,source">
+	<include name="**/*.java" />
+
+	 <classpath>
+		  <pathelement location="${aatma.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${aatma.lib}/commons-logging.jar"/>
+
+		  <pathelement location="${aatma.lib}/dom.jar"/>		  
+		  <pathelement location="${aatma.lib}/dtdparser121.jar"/>		  
+		  <pathelement location="${aatma.lib}/fop-0.20.5.jar"/>		  
+		  <pathelement location="${aatma.lib}/jaxen-1.1.1.jar"/>		  
+		  <pathelement location="${aatma.lib}/jdom.jar"/>		  
+		  <pathelement location="${aatma.lib}/jing.jar"/>		  
+		  <pathelement location="${aatma.lib}/log4j.jar"/>		  
+		  <pathelement location="${aatma.lib}/jgoodies-looks-2.4.1.jar"/>		  
+		  <pathelement location="${aatma.lib}/msplit.jar"/>		  
+		  <pathelement location="${aatma.lib}/resolver.jar"/>		  
+		  <pathelement location="${aatma.lib}/retroweaver-1.2.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/retroweaver-rt-1.2.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/sax.jar"/>		  
+		  <pathelement location="${aatma.lib}/saxon-9.1.0.8.jar"/>		  
+		  <pathelement location="${aatma.lib}/saxon-6.5.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/swing-layout-1.0.3.jar"/>		  
+	<!--	  <pathelement location="${aatma.lib}/swingx_rw_0.8.0.jar"/>		-->  
+
+		  <pathelement location="${aatma.lib}/swingx-core-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-action-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-autocomplete-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-beaninfo-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-common-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-graphics-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-painters-1.6.6-SNAPSHOT.jar"/>		  	
+		  <pathelement location="${aatma.lib}/swingx-plaf-1.6.6-SNAPSHOT.jar"/>		  	
+
+		 <pathelement location="${aatma.lib}/TimingFramework-1.0.jar"/>		  
+		  <pathelement location="${aatma.lib}/trang.jar"/>		  
+		  <pathelement location="${aatma.lib}/xalan-2.7.1.jar"/>		  
+		  <pathelement location="${aatma.lib}/xercesImpl.jar"/>		  
+		  <pathelement location="${aatma.lib}/OfficeLnFs_2.7.jar"/>	
+		    <pathelement location="${aatma.lib}/JTattoo.jar"/>	
+
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-core-multiview.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-swing-plaf.jar"/>	
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-swing-tabcontrol.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-openide-awt.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-openide-util.jar"/>		
+		  <pathelement location="${aatma.lib}/tabs/org-openide-windows.jar"/>	  
+		 
+	</classpath>
+
+   </javac>
+
+	<copy todir="${build.dir}/" >
+       <fileset dir="${src.dir}/" >
+         <include name="**/resources/*"/>
+         <include name="**/exalto/*"/>
+         <include name="**/*.zip"/>
+         <include name="**/*.properties"/>
+         <include name="**/*.xml"/>
+	     <include name="**/images/*"/>
+        
+	   </fileset>
+     </copy>
+
+
+ </target>
+
+
+
+ <!--
+  Perform a clean compilation
+  -->  
+ <target name="compile.clean" depends="clean,prepare,compile" />
+
+ <!--
+   -  
+   - RUN OPTIONS: run.testclient
+   -  
+   -->
+ 
+ <!-- <target name="runclient" depends="compile-client" > -->
+
+ <target name="runclient">
+
+ <!-- <java classname="com.vegaspro.main.VegasCasino"  > -->
+
+<java classname="com.exalto.UI.XTreeTester"  fork="true"> 
+
+	 <classpath>
+		  <pathelement location="${aatma.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${aatma.lib}/commons-logging.jar"/>
+		  <pathelement location="${aatma.lib}/log4j-1.2.7.jar"/>
+  	      <pathelement location="${take.lib}/junit-4.6.jar"/>		  
+   	      <pathelement location="${derivo.lib}/xalan.jar"/>		   	      
+		  <pathelement location="${derivo.lib}/xercesImpl.jar"/>		  
+   	      <pathelement location="${derivo.lib}/saxon9.jar"/>		  
+   	   
+		  <pathelement location="${aatma.lib}/dom.jar"/>		  
+		  <pathelement location="${aatma.lib}/dtdparser121.jar"/>		  
+		  <pathelement location="${aatma.lib}/fop.jar"/>		  
+		  <pathelement location="${aatma.lib}/jaxen-1.1.1.jar"/>		  
+		  <pathelement location="${aatma.lib}/jdom.jar"/>		  
+		  <pathelement location="${aatma.lib}/jing.jar"/>		  
+		  <pathelement location="${aatma.lib}/log4j.jar"/>		  
+		  <pathelement location="${aatma.lib}/looks-1.3.2.jar"/>		  
+		  <pathelement location="${aatma.lib}/msplit.jar"/>		  
+		  <pathelement location="${aatma.lib}/resolver.jar"/>		  
+		  <pathelement location="${aatma.lib}/retroweaver-1.2.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/retroweaver-rt-1.2.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/sax.jar"/>		  
+		  <pathelement location="${aatma.lib}/saxon9.jar"/>		  
+		  <pathelement location="${aatma.lib}/saxon.jar"/>		  
+		  <pathelement location="${aatma.lib}/swing-layout-1.0.3.jar"/>		  
+		  <pathelement location="${aatma.lib}/swingx_rw_0.8.0.jar"/>		  
+		  <pathelement location="${aatma.lib}/TimingFramework-1.0.jar"/>		  
+		  <pathelement location="${aatma.lib}/trang.jar"/>		  
+		  <pathelement location="${aatma.lib}/xalan-2.7.1.jar"/>		  
+		  <pathelement location="${aatma.lib}/xercesImpl.jar"/>		  
+		  <pathelement path="${base.dir}"/>
+		  <pathelement path="${build.dir}"/>
+  
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-core-multiview.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-swing-plaf.jar"/>	
+		  <pathelement location="${aatma.lib}/tabs/org-netbeans-swing-tabcontrol.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-openide-awt.jar"/>		  
+		  <pathelement location="${aatma.lib}/tabs/org-openide-util.jar"/>		
+		  <pathelement location="${aatma.lib}/tabs/org-openide-windows.jar"/>		  
+
+
+
+	</classpath>
+	<jvmarg value="-DisRCP=true" />
+
+
+</java>
+
+ 
+ </target>
+
+
+ <target name="rungi" depends="prepare">
+
+  <java classname="com.vegaspro.util.GenerateInterface" fork="true">
+
+	 <classpath>
+		  <pathelement location="${take.required.lib}/ant-1.7.0.jar"/>
+		  <pathelement location="${take.required.lib}/ant-launcher.jar"/>
+		  <pathelement location="${take.required.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${take.required.lib}/commons-logging.jar"/>
+		  <pathelement location="${take.required.lib}/hsqldb.jar"/>
+		  <pathelement location="${take.required.lib}/jalopy.jar"/>
+		  <pathelement location="${take.required.lib}/log4j-1.2.7.jar"/>
+		  <pathelement location="${take.required.lib}/velocity-dep-1.5.jar"/>
+		  <pathelement location="${take.lib}/take-custom-1.2.4.jar"/>		  
+  	      <pathelement location="${take.lib}/junit-4.6.jar"/>		  
+   	      <pathelement location="${take.lib}/juel-2.1.0.jar"/>		  
+   	      <pathelement location="${take.lib}/velocity-1.5.jar"/>		  
+   	      <pathelement location="${derivo.lib}/xalan.jar"/>		   	      <pathelement location="${derivo.lib}/xercesImpl.jar"/>		  
+   	      <pathelement location="${derivo.lib}/saxon9.jar"/>		  
+   	      <pathelement location="${derivo.lib}/juel-2.1.0-impl.jar"/>		 
+  		  <pathelement location="${dist}/otake-util.jar"/>		  
+		  <pathelement path="${build.util.dir}"/>
+		  <pathelement path="${build.client.dir}"/>
+		  <pathelement path="${base.dir}"/>
+  
+
+
+	</classpath>
+
+
+	<jvmarg value="-Djava.class.path=${java.class.path}" />
+	<!--
+	<arg value="assets/eurent.take" />
+	<arg value="com.vegaspro.generated" />
+	<arg value="KB" />
+	-->
+	<arg value="assets//blackjack.take" />
+	<arg value="com.vegaspro.generated" />
+	<arg value="BlackjackKB" />
+
+	<arg value="SRC_PATH=${generated.files.dir}" /> 
+
+</java>
+
+ </target>
+
+
+ <target name="gentest">
+
+  <java classname="com.vegaspro.main.GenericsTest">
+
+	 <classpath>
+		  <pathelement location="${take.required.lib}/ant-1.7.0.jar"/>
+		  <pathelement location="${take.required.lib}/ant-launcher.jar"/>
+		  <pathelement location="${take.required.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${take.required.lib}/commons-logging.jar"/>
+		  <pathelement location="${take.required.lib}/hsqldb.jar"/>
+		  <pathelement location="${take.required.lib}/jalopy.jar"/>
+		  <pathelement location="${take.required.lib}/log4j-1.2.7.jar"/>
+		  <pathelement location="${take.required.lib}/velocity-dep-1.5.jar"/>
+		  <pathelement location="${take.lib}/take-custom-1.2.4.jar"/>		  
+  	      <pathelement location="${take.lib}/junit-4.6.jar"/>		  
+   	      <pathelement location="${take.lib}/juel-2.1.0.jar"/>		  
+   	      <pathelement location="${take.lib}/velocity-1.5.jar"/>		  
+   	      <pathelement location="${derivo.lib}/xalan.jar"/>		   	      <pathelement location="${derivo.lib}/xercesImpl.jar"/>		  
+   	      <pathelement location="${derivo.lib}/saxon9.jar"/>		  
+   	      <pathelement location="${derivo.lib}/juel-2.1.0-impl.jar"/>		 
+  		  <pathelement location="${dist}/otake-util.jar"/>		  
+		  <pathelement path="${build.util.dir}"/>
+		  <pathelement path="${build.client.dir}"/>
+		  <pathelement path="${base.dir}"/>
+		  <pathelement path="${base.dir}/src"/>
+  
+
+	</classpath>
+
+	<arg value="com.vegaspro.generated.BlackjackKB" />
+
+</java>
+
+ </target>
+
+
+ <target name="runcligen">
+
+  <java classname="com.vegaspro.main.ClientGenerator" fork="true">
+
+	 <classpath>
+		  <pathelement location="${take.required.lib}/ant-1.7.0.jar"/>
+		  <pathelement location="${take.required.lib}/ant-launcher.jar"/>
+		  <pathelement location="${take.required.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${take.required.lib}/commons-logging.jar"/>
+		  <pathelement location="${take.required.lib}/hsqldb.jar"/>
+		  <pathelement location="${take.required.lib}/jalopy.jar"/>
+		  <pathelement location="${take.required.lib}/log4j-1.2.7.jar"/>
+		  <pathelement location="${take.required.lib}/velocity-dep-1.5.jar"/>
+		  <pathelement location="${take.lib}/take-custom-1.2.4.jar"/>		  
+  	      <pathelement location="${take.lib}/junit-4.6.jar"/>		  
+   	      <pathelement location="${take.lib}/juel-2.1.0.jar"/>		  
+   	      <pathelement location="${take.lib}/velocity-1.5.jar"/>		  
+   	      <pathelement location="${derivo.lib}/xalan.jar"/>		   	      <pathelement location="${derivo.lib}/xercesImpl.jar"/>		  
+   	      <pathelement location="${derivo.lib}/saxon9.jar"/>		  
+   	      <pathelement location="${derivo.lib}/juel-2.1.0-impl.jar"/>		 
+  		  <pathelement location="${dist}/otake-util.jar"/>		  
+		  <pathelement path="${build.util.dir}"/>
+		  <pathelement path="${build.client.dir}"/>
+		  <pathelement path="${base.dir}"/>
+		  <pathelement path="${base.dir}/src"/>
+  
+	</classpath>
+
+	<arg value="false" />
+
+</java>
+
+ </target>
+
+
+
+ <target name="gitest">
+
+  <java classname="com.vegaspro.util.CompileJava">
+
+  	 <classpath>
+		  <pathelement path="${base.dir}"/>
+		  <pathelement path="${build.interface.dir}"/>
+		  <pathelement location="${take.required.lib}/ant-1.7.0.jar"/>
+		  <pathelement location="${take.required.lib}/ant-launcher.jar"/>
+		  <pathelement location="${take.required.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${take.required.lib}/commons-logging.jar"/>
+		  <pathelement location="${take.required.lib}/hsqldb.jar"/>
+		  <pathelement location="${take.required.lib}/jalopy.jar"/>
+		  <pathelement location="${take.required.lib}/juel-2.1.0.jar"/>
+		  <pathelement location="${take.required.lib}/log4j-1.2.7.jar"/>
+		  <pathelement location="${take.required.lib}/velocity-dep-1.5.jar"/>
+		  <pathelement location="${take.jar.dir}/take-custom-1.2.4.jar"/>		  
+		  <pathelement location="${dist}/otake-util.jar"/>		  
+
+	</classpath>
+
+
+</java>
+
+ </target>
+
+
+
+ <target name="rungb" depends="prepare">
+  <java classname="com.vegaspro.util.Generator" fork="yes">
+  	 <classpath>
+		  <pathelement location="${take.required.lib}/ant-1.7.0.jar"/>
+		  <pathelement location="${take.required.lib}/ant-launcher.jar"/>
+		  <pathelement location="${take.required.lib}/commons-collections-3.1.jar"/>
+		  <pathelement location="${take.required.lib}/commons-logging.jar"/>
+		  <pathelement location="${take.required.lib}/hsqldb.jar"/>
+		  <pathelement location="${take.required.lib}/jalopy.jar"/>
+		  <pathelement location="${take.required.lib}/juel-2.1.0.jar"/>
+		  <pathelement location="${take.required.lib}/log4j-1.2.7.jar"/>
+		  <pathelement location="${take.required.lib}/velocity-dep-1.5.jar"/>
+		  <pathelement location="${take.lib}/take-custom-1.2.4.jar"/>		  
+  	      <pathelement location="${take.lib}/junit-4.6.jar"/>		  
+   	      <pathelement location="${take.lib}/velocity-1.5.jar"/>		  
+   	      <pathelement location="${derivo.lib}/xalan.jar"/>		   	      <pathelement location="${derivo.lib}/xercesImpl.jar"/>		  
+   	      <pathelement location="${derivo.lib}/saxon9.jar"/>		  
+   	      <pathelement location="${derivo.dist}/otake-util.jar"/>		  
+
+	</classpath>
+
+	<arg value="card.xml" />
+	<arg value="LargestMammals.txt" />
+	<jvmarg value="-Dcontext.root.path='/'" />
+
+</java>
+ </target>
+
+
+ <!--
+   -  
+   - SETUP OPTIONS: clean, prepare
+   -  
+   -->
+
+ <!--
+  Prepare performs setup steps for the build
+  -->                   
+ <target name="prepare">
+  <!-- Create the time stamp -->
+  <tstamp/>
+  
+  <!-- Create the build directory structure used by compile -->
+<!--<mkdir dir="${build}" />-->
+  <mkdir dir="${build.dir}" />
+  <mkdir dir="${dist}" />
+
+ </target>
+ 
+ <!-- 
+  Clean everything
+  -->                          
+ <target name="clean">
+  <!-- Delete the ${build.dir} and ${jar.dir} directory trees -->
+  <delete dir="${build.dir}" />
+  <delete dir="${dist.dir}" />
+ </target>
+
+ <!--
+   -  
+   - DEPLOYMENT OPTIONS: deploy.jboss, deploy.jboss.clean
+   -  
+   --> 
+
+
+ <!--
+   -  
+   - HELP SCREENS: options
+   -  
+   --> 
+ <target name="options">
+   <echo message="License Server Ant Scripts (default=options):" />
+   <echo message="" />
+   <echo message="Deployment Options:" />
+   <echo message=" deploy.jboss:    Deploy the License Manager to JBoss" />
+   <echo message=" deploy.jboss.clean: Perform a clean build and then deploy" />
+   <echo message="" />
+   <echo message="Build Options:" />
+   <echo message=" ejb.jar:       Compile and build the licenseserver.jar file" />
+   <echo message=" ejb.jar.clean:    Perform a clean build of licenseserver.jar" />
+   <echo message="" />
+   <echo message="Compilation Options:" />
+   <echo message=" compile:       Compile all of the source code" />
+   <echo message=" compile.clean:    Recompile everything" />
+   <echo message="" />
+   <echo message="Run Options:" />
+   <echo message=" run.testclient:   Launch the TestClient class" />
+   <echo message="" />
+   <echo message="Help Options:" />
+   <echo message=" options:       This screen" />
+   <echo message="" />
+ </target>
+
+</project>

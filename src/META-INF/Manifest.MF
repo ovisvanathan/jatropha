@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: Apache Ant 1.5
+Main-Class: com.exalto.UI.XTreeTester
+Class-Path: ../lib/log4j.jar ../lib/saxon9.jar . ../lib/dom.jar ../lib/JTattoo.jar  ../lib/dtdparser121.jar ../lib/jaxen-1.1.1.jar ../lib/looks-1.3.2.jar ../lib/resolver.jar ../lib/retroweaver-1.2.3.jar ../lib/retroweaver-rt-1.2.3.jar ../lib/sax.jar ../lib/swing-layout-1.0.3.jar ../lib/swingx_rw_0.8.0.jar ../lib/xalan-2.7.1.jar ../lib/serializer.jar ../lib/xercesImpl.jar ../lib/tabs/org-netbeans-core-multiview.jar ../lib/tabs/org-netbeans-swing-plaf.jar ../lib/tabs/org-netbeans-swing-tabcontrol.jar ../lib/tabs/org-openide-awt.jar ../lib/tabs/org-openide-util.jar ../lib/tabs/org-openide-windows.jar
