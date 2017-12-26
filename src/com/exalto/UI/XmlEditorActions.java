@@ -15,6 +15,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -149,8 +150,6 @@ public class XmlEditorActions  implements TreeTableClipboard {
     TreeTableClipboard treeTableClipboard;
     TreeTableClipboard viewAct;
     MyInternalFrame myf;
-    
-    TreeTableXmlOps treeTableXmlOps;
     
     FindDialog dialog;
     
@@ -451,6 +450,7 @@ public class XmlEditorActions  implements TreeTableClipboard {
 
     
  // begin code for clipboard ops text/grid
+   /*
     public TreeTableXmlOps getTargetComponentForXml(MyInternalFrame myf, JTextComponent jc) {
 
          String currentView = myf.getCurrentView();
@@ -609,6 +609,7 @@ public class XmlEditorActions  implements TreeTableClipboard {
 
 
        }
+       
 	   
        public void doSaveAs(File f) {
 
@@ -691,8 +692,10 @@ public class XmlEditorActions  implements TreeTableClipboard {
        }
        
    }
-
    
+   */
+
+  /*  
    public interface TreeTableXmlOps {
 	   public void doSave(String s);
 	   public void doSaveAs(File file);
@@ -730,7 +733,9 @@ public class XmlEditorActions  implements TreeTableClipboard {
 	   
 	   
    }
-
+  */
+   
+   /*
    private class TextEditAction implements TreeTableClipboard {
 
         public TextEditAction(JTextComponent jc) {
@@ -763,6 +768,7 @@ public class XmlEditorActions  implements TreeTableClipboard {
         }    
         
     }
+    
 
     private class GridEditAction implements TreeTableClipboard {
 
@@ -795,8 +801,11 @@ public class XmlEditorActions  implements TreeTableClipboard {
         }    
         
     }
+    
+    
 
 // outer class clipboard methods begin 
+    
         public void cut(ActionEvent evt) {
             getCurrentViewAction().cut(evt);
         }    
@@ -808,7 +817,8 @@ public class XmlEditorActions  implements TreeTableClipboard {
         public void copy(ActionEvent evt) {
             getCurrentViewAction().copy(evt);
         }    
-
+     */
+    
         public void undo(ActionEvent evt) {
             this.getUndoManager().undo();
         }    
@@ -841,10 +851,11 @@ public class XmlEditorActions  implements TreeTableClipboard {
         	
         }    
    
-        
+    /*    
     public TreeTableClipboard getCurrentViewAction() {
           return viewAction;
-    }       
+    }
+    */       
  
  // end clipboard
 
@@ -967,21 +978,26 @@ public class XmlEditorActions  implements TreeTableClipboard {
                 	                
                 	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = new XmlEditorActions();
-                	                  TreeTableClipboard target = va.getTargetComponent(myf, textComp);
-
-	                	              if (target != null) {
-	                	                  target.cut(evt);
-	                	                  pasteAction.setEnabled(true);
-	                	              } else {
-	                	        
-	                	                   desktopView.cut(evt);
-	                	                  
-	                	                  System.out.println(" CutAction retval = " + clipBoardHasContents);
-	                	                
-	                	                  pasteAction.setEnabled(clipBoardHasContents);
-	                	              }
-                	                          
+                	            	  
+                	                  String currentView = myf.getCurrentView();
+                	                  
+                	                  if(currentView != null) {
+                	                      
+                	                      if(currentView.equals("TEXTVIEW")) {
+                	                    	  desktopView.cut(evt);
+    	                	                  
+    	                	                  System.out.println(" CutAction retval = " + clipBoardHasContents);
+    	                	                
+    	                	                  pasteAction.setEnabled(clipBoardHasContents);
+    	                	                  
+                	                      } else {
+                	                          treeTableClipboard = myf.getTreeTableClipboard();
+                	                          treeTableClipboard.cut(evt);
+    	                	                  pasteAction.setEnabled(true);
+    	                	              
+                	                      }
+                	                  }
+                	                  
                 	              }
 
                 	            
@@ -1025,21 +1041,25 @@ public class XmlEditorActions  implements TreeTableClipboard {
             	                
             	                System.out.println(" CopyAction actionPerformed TEXTVIEW ");
 
-            	                //OV c 24/03/08
-            	            JTextComponent textComp = getTextComponent(evt);
-
-            	             //OV a 24/03/08
-            	             XmlEditorActions va = new XmlEditorActions();
-            	             TreeTableClipboard target = va.getTargetComponent(myf, textComp);
-
-            	            if (target != null) {
-            	                target.copy(evt);
-            	                pasteAction.setEnabled(true);
-            	            } else {
-            	                desktopView.copy(evt);
-            	                pasteAction.setEnabled(true);
-
-            	            }
+	            	                //OV c 24/03/08
+	            	            JTextComponent textComp = getTextComponent(evt);
+	
+	      	            	  
+	      	                  	String currentView = myf.getCurrentView();
+	      	                  
+	      	                  	if(currentView != null) {
+	      	                      
+		      	                      if(currentView.equals("TEXTVIEW")) {
+		      	                        desktopView.copy(evt);
+		            	                pasteAction.setEnabled(true);
+		        
+		      	                      } else {
+		      	                          treeTableClipboard = myf.getTreeTableClipboard();
+		      	                          treeTableClipboard.copy(evt);
+		      	                          pasteAction.setEnabled(true);
+		              	              
+		      	                      }
+	      	                   }
 
             	            }
 
@@ -1089,15 +1109,23 @@ public class XmlEditorActions  implements TreeTableClipboard {
             	        //OV c 24/03/08    
             	                JTextComponent textComp = getTextComponent(evt);
 
-            	                 //OV a 24/03/08
-            	                 XmlEditorActions va = new XmlEditorActions();
-            	                 TreeTableClipboard target = va.getTargetComponent(myf, textComp);
-
-            	                if (target != null) {
-            	                    target.paste(evt);
-            	                } else {
-            	                    desktopView.paste(evt);
-            	                }
+            	                
+	      	                  	String currentView = myf.getCurrentView();
+		      	                  
+	      	                  	if(currentView != null) {
+	      	                      
+		      	                      if(currentView.equals("TEXTVIEW")) {
+		            	                    desktopView.paste(evt);
+		        
+		      	                      } else {
+		      	                          treeTableClipboard = myf.getTreeTableClipboard();
+		      	                          treeTableClipboard.paste(evt);
+		      	                      }
+	      	                  	}
+            	                
+            	                
+            	                
+            	                
 
             	                
             	            }
@@ -1150,6 +1178,10 @@ public class XmlEditorActions  implements TreeTableClipboard {
 
             	                    System.out.println(" undoAction actionPerformed TEXTVIEW ");
             	                    //OV a 24/03/08
+
+            	                    undo(evt);
+
+            	                    /*
             	                    XmlEditorActions vact = XmlEditorActions.getSharedInstance();
             	                    
             	                    vact.setTargetComponent(myf);
@@ -1158,8 +1190,9 @@ public class XmlEditorActions  implements TreeTableClipboard {
             	                   // desktopView.undo(evt);
             	                    
             	                    vact.undo(evt);
+            	                    */
             	                    
-            	                    boolean canUndo = vact.getUndoManager().canUndo();
+            	                    boolean canUndo = XmlEditorActions.this.getUndoManager().canUndo();
             	                    if(!canUndo) {
             	                        String title = myf.getTitle();
             	                        if(title.indexOf("*") != -1) {
@@ -1170,7 +1203,7 @@ public class XmlEditorActions  implements TreeTableClipboard {
             	                    }
 
 
-            	                 vact.resetActions();
+            	                 resetActions();
 /*
             	                 String currentView = myf.getCurrentView();
             	                 if(currentView != null) {
@@ -1675,29 +1708,25 @@ public class XmlEditorActions  implements TreeTableClipboard {
  	    		   
     	            System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass().getName());
     	            
-System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass().getName());
+    	            System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass().getName());
 
-                	            DesktopView desktopView = xeditor.getDesktopView();
+    	            DesktopView desktopView = xeditor.getDesktopView();
 
-                	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
+    	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
 
-                	            if(myf != null) {
+    	            if(myf != null) {
 
-                	            	  JTextComponent textComp = getTextComponent(evt);
+    	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = XmlEditorActions.getSharedInstance();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
+    	                  String currentView = myf.getCurrentView();
+    	                  
+    	                  xeditor.doSave();
 
-	                	              if (target != null) {
-
-	                	            	  target.doSave(null);
-
-	                	              }
-
-                	              }
+    	              }
 
 
-                	    		return null;    	        }
+         	    	  return null;    	        
+         	   }
     	    	
     	 	    //Runs on the event-dispatching thread.
                 public void finished() {
@@ -1734,36 +1763,38 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
  	    		   
     	            System.out.println(" in CA PrintAction actionPerformed evt src " + evt.getSource().getClass().getName());
     	            
-					            DesktopView desktopView = xeditor.getDesktopView();
+		            DesktopView desktopView = xeditor.getDesktopView();
 
-                	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
+    	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
 
-                	            if(myf != null) {
+    	            if(myf != null) {
 
-                	            	  JTextComponent textComp = getTextComponent(evt);
+    	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = XmlEditorActions.getSharedInstance();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
+    	            	  
+    	            	   	String currentView = myf.getCurrentView();
+      	                  
+      	                  	if(currentView != null) {
+      	                      
+	      	                      if(currentView.equals("TEXTVIEW")) {
+	            	                    try {
+											print();
+										} catch (PrinterException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+	                             } else {
+	      	                          treeTableClipboard = myf.getTreeTableClipboard();
+	      	                          treeTableClipboard.print(evt);
+	      	                      }
+      	                  	}
+        	                	   
+    	              }
 
-	                	              if (target != null) {
-	                	            	
-										  try
-										  {
-												target.print();
-	
-										  } catch (Exception pe)
-										  {
-							    	            System.err.println(" cannot print ");
 
-										  }
-
-									  
-									  }
-
-                	              }
-
-
-                	    		return null;    	        }
+    	    		return null;    	        
+    
+    	    	}
     	    	
     	 	    //Runs on the event-dispatching thread.
                 public void finished() {
@@ -1799,25 +1830,31 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
  	    		   
     	            System.out.println(" in CA PrintAction actionPerformed evt src " + evt.getSource().getClass().getName());
     	            
-					            DesktopView desktopView = xeditor.getDesktopView();
+		            DesktopView desktopView = xeditor.getDesktopView();
 
-                	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
+    	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
 
-                	            if(myf != null) {
+    	            if(myf != null) {
 
-                	            	  JTextComponent textComp = getTextComponent(evt);
+    	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = XmlEditorActions.getSharedInstance();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
+    	            	  String currentView = myf.getCurrentView();
+    	                  
+  	                  	  if(currentView != null) {
+  	                      
+      	                      if(currentView.equals("TEXTVIEW")) {
+      	                  //  	  printPreview();
+                              } else {
+      	                          treeTableClipboard = myf.getTreeTableClipboard();
+      	                          treeTableClipboard.printPreview(evt);
+      	                      }
+  	                  	  }
 
-	                	              if (target != null) {
-	                	            	  target.printPreview();
-	                	              }
-
-                	              }
+    	             }
 
 
-                	    		return null;    	        }
+    	    		return null;    	        
+    	    	}
     	    	
     	 	    //Runs on the event-dispatching thread.
                 public void finished() {
@@ -1854,27 +1891,29 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
   	    		   
     	            System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass().getName());
     	            
-                	            DesktopView desktopView = xeditor.getDesktopView();
+    	            DesktopView desktopView = xeditor.getDesktopView();
 
-                	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
+    	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
 
-                	            if(myf != null) {
+    	            if(myf != null) {
 
-                	            	  JTextComponent textComp = getTextComponent(evt);
+    	            	  JTextComponent textComp = getTextComponent(evt);
+    	            	  
+    	            	  String currentView = myf.getCurrentView();
+    	                  
+  	                  	  if(currentView != null) {
+  	                      
+      	                      if(currentView.equals("TEXTVIEW")) {
+      	                    	  doSaveAs(null);
+                              } else {
+      	                          xeditor.doSaveAs();
+      	                      }
+  	                  	  }
 
-                	                  XmlEditorActions va = new XmlEditorActions();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
-
-	                	              if (target != null) {
-
-	                	            	  target.doSaveAs(null);
-
-	                	              }
-
-                	              }
+    	              }
 
 
-                	    		return null;    	        
+    	    		return null;    	        
 
     	        }
     	    	
@@ -1919,15 +1958,17 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
                 	                
                 	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = new XmlEditorActions();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
+                	            	  String currentView = myf.getCurrentView();
+                	                  
+              	                  	  if(currentView != null) {
+              		                      if(currentView.equals("TEXTVIEW")) {
+                  	                     	  checkWellFormed();            
+              		                      } else if(currentView.equals("GRIDVIEW")) {
+                  	                    	  treeTableClipboard = myf.getTreeTableClipboard();
+                  	                     	  treeTableClipboard.checkWellFormed();            
+                  	                      }
+              	                  	  }
 
-	                	              if (target != null) {
-	                	                  
-	                	            	  target.checkWellFormed();
-	                	                  
-	                	              }
-                	                          
                 	              }
 
                 	            
@@ -1972,14 +2013,16 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
                 	                
                 	            	  JTextComponent textComp = getTextComponent(evt);
 
-                	                  XmlEditorActions va = new XmlEditorActions();
-                	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
-
-	                	              if (target != null) {
-	                	                  
-	                	            	  target.checkValid();
-	                	                  
-	                	              }
+                	            	  String currentView = myf.getCurrentView();
+                	                  
+              	                  	  if(currentView != null) {
+              	                        if(currentView.equals("TEXTVIEW")) {
+              	                        	  checkValid();            
+            		                      } else if(currentView.equals("GRIDVIEW")) {
+                	                    	  treeTableClipboard = myf.getTreeTableClipboard();
+                  	                     	  treeTableClipboard.checkValid();            
+                  	                      }
+              	                  	  }
                 	                          
                 	              }
 
@@ -1998,35 +2041,6 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
             }
     }
     
-    
-	 private void doCheckWellFormed(TreeTableXmlOps target) {
-		 
-		 if(target instanceof TextXmlAction) {
-			 
-			 xeditor.doCheckWellFormed();
-			 
-		 } else if(target instanceof GridXmlAction) {
-			 
-	            System.out.println(" Grid check WF  ");
-	             
-		 }
-		 
-	 }
-
-	 private void doCheckValid(TreeTableXmlOps target) {
-
-		    System.out.println(" Grid check do validity ");
-		 if(target instanceof TextXmlAction) {
-			 
-			 xeditor.doCheckValidity();
-			 
-		 } else if(target instanceof GridXmlAction) {
-			 
-	            System.out.println(" Grid check validity ");
-			 
-		 }
-		 
-	 }
     
 	 class WordWrapAction extends AbstractAction {
 	        
@@ -2252,43 +2266,49 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
 
              	            if(myf != null) {
 
-          	            	  JTextComponent textComp = getTextComponent(evt);
+             	            	JTextComponent textComp = getTextComponent(evt);
 
-        	                  XmlEditorActions va = new XmlEditorActions();
-        	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
+             	            	String currentView = myf.getCurrentView();
+    	            	   
+             	            	if(currentView != null) {
+    	                       
+             	            		if(currentView.equals("GRIDVIEW")) {
+    	                    	   
+             	            			treeTableClipboard = myf.getTreeTableClipboard();
+             	            			if(jmi.getActionCommand().equals("gridops-inselement"))
+             	            				treeTableClipboard.insertNode("Element");
+             	            			else if(jmi.getActionCommand().equals("gridops-insattr"))
+             	            				treeTableClipboard.insertNode("Attr");
+             	            			else if(jmi.getActionCommand().equals("gridops-instext"))
+             	            				treeTableClipboard.insertNode("Text");            	            	  
+             	            			else if(jmi.getActionCommand().equals("gridops-delelement"))
+             	            				treeTableClipboard.deleteNode("Element");
+             	            			else if(jmi.getActionCommand().equals("gridops-delattr"))
+             	            				treeTableClipboard.deleteNode("Attr");
+             	            			else if(jmi.getActionCommand().equals("gridops-deltext"))
+             	            				treeTableClipboard.deleteNode("Text");
+             	            			else if(jmi.getActionCommand().equals("gridops-rename"))
+             	            				treeTableClipboard.renameNode();
+             	            			else if(jmi.getActionCommand().equals("gridops-expand"))
+             	            				treeTableClipboard.expandNode();
+             	            			else if(jmi.getActionCommand().equals("gridops-expandall")
+             	            					||  jmi.getActionCommand().equals("gridops-collapseall") ) {
+            	            		  
+             	            				String actType = jmi.getActionCommand();
+             	            					treeTableClipboard.expandAll(actType);
+             	            					
+             	            				String actCmd = jmi.getActionCommand().equals("gridops-expandall")? "gridops-collapseall"
+             	            							: "gridops-expandall";
+            	            		  
+             	            				jmi.setActionCommand(actCmd);
+            	            		  
+             	            			}
+                 	               
 
-            	              if (target != null) {
+             	            		} 
+    	                       
+             	                }        	   
 
-            	            	  if(jmi.getActionCommand().equals("gridops-inselement"))
-		            	              target.insertNode("Element");
-            	            	  else if(jmi.getActionCommand().equals("gridops-insattr"))
-		            	       		  target.insertNode("Attr");
-            	            	  else if(jmi.getActionCommand().equals("gridops-instext"))
-		            	       		  target.insertNode("Text");            	            	  
-            	            	  else if(jmi.getActionCommand().equals("gridops-delelement"))
-		            	       		  target.deleteNode("Element");
-		            	          else if(jmi.getActionCommand().equals("gridops-delattr"))
-		            	       		  target.deleteNode("Attr");
-		            	      	  else if(jmi.getActionCommand().equals("gridops-deltext"))
-		            	       		  target.deleteNode("Text");
-            	            	  else if(jmi.getActionCommand().equals("gridops-rename"))
-            	            		  target.renameNode();
-            	            	  else if(jmi.getActionCommand().equals("gridops-expand"))
-            	            		  target.expandNode();
-            	            	  else if(jmi.getActionCommand().equals("gridops-expandall")
-            	            			||  jmi.getActionCommand().equals("gridops-collapseall") ) {
-            	            		  
-            	            		  String actType = jmi.getActionCommand();
-            	            		  target.expandAll(actType);
-            	            		  
-            	            		  String actCmd = jmi.getActionCommand().equals("gridops-expandall")? "gridops-collapseall"
-            	            				  : "gridops-expandall";
-            	            		  
-            	            		  jmi.setActionCommand(actCmd);
-            	            		  
-            	            	  }
-            	            	  
-            	             }
              	            	
              	            }             	            
              	    		return null;
@@ -2532,18 +2552,19 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
 	             	            MyInternalFrame myf = (MyInternalFrame) desktopView.getSelectedFrame();
 
 	             	            if(myf != null) {
-
-                	                
-              	            	  JTextComponent textComp = getTextComponent(evt);
-
-              	                  XmlEditorActions va = new XmlEditorActions();
-              	                  TreeTableXmlOps target = va.getTargetComponentForXml(myf, textComp);
-
-	                	              if (target != null) {	                	                  
-	                	            	  target.find();
-	                	              }
+	             	            	JTextComponent textComp = getTextComponent(evt);              	            	  
+	             	            	String currentView = myf.getCurrentView();
+            	                  
+	             	            	if(currentView != null) {
+	             	            		if(currentView.equals("TEXTVIEW")) {
+	             	            			find();            
+	             	            		} else if(currentView.equals("GRIDVIEW")) {
+	             	            			treeTableClipboard = myf.getTreeTableClipboard();
+              	                     	  	treeTableClipboard.find();            
+	             	            		}
+          	                  	  	}
 		             	          	             	                       
-           	                   }        	   
+           	                   	}        	   
 	             	                          
 	             	    		return null;
 	             	        }
@@ -2658,11 +2679,11 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
 		 	
 		}
 
-	 public void  doCheckWellFormed() {
+	 public void  checkWellFormed() {
 		   xeditor.doCheckWellFormed();
 	 }    
 	
-	 public void  doCheckValidity() {
+	 public void  checkValid() {
 		   xeditor.doCheckValidity();
 	 }    
 	
@@ -2869,5 +2890,65 @@ System.out.println(" in CA actionPerformed evt src " + evt.getSource().getClass(
     public void convertToCSV(ActionEvent e) {
         System.out.println( " in convertToCSV ");
     }
+
+	@Override
+	public void cut(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void copy(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void paste(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void print(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertNode(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteNode(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void renameNode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void expandNode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void expandAll(String actType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printPreview(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

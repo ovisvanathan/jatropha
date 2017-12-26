@@ -27,5 +27,17 @@ public interface TreeTableClipboard {
     public void undo(ActionEvent evt);
     public void redo(ActionEvent evt);
     public UndoManager getUndoManager();
+	public void print(ActionEvent evt);
+	public void checkWellFormed();
+	public void checkValid();
+	
+	
+	public void insertNode(String string);
+	public void deleteNode(String string);
+	public void renameNode();
+	public void expandNode();
+	public void expandAll(String actType);
+	public void printPreview(ActionEvent evt);
+	public void find();
     
 }

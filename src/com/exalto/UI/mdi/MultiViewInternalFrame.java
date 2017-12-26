@@ -59,7 +59,6 @@ import com.exalto.ColWidthTypes;
 import com.exalto.CustomEntityResolver;
 import com.exalto.UI.TreeTableClipboard;
 import com.exalto.UI.XmlEditor;
-import com.exalto.UI.XmlEditorActions.TreeTableXmlOps;
 import com.exalto.UI.grid.JXmlTreeTable;
 import com.exalto.UI.grid.XmlKitTest;
 import com.exalto.UI.multiview.MVTableDesc;
@@ -82,7 +81,7 @@ import javax.swing.text.View;
 import org.w3c.dom.Document;
 
 
-public class MultiViewInternalFrame extends MyInternalFrame implements DocumentListener, KeyEventDispatcher, TreeTableClipboard  {
+public class MultiViewInternalFrame extends MyInternalFrame implements DocumentListener, KeyEventDispatcher {
 	private Editor editor;
 	private JScrollPane jsp;
 	// for caret events
@@ -439,9 +438,6 @@ public class MultiViewInternalFrame extends MyInternalFrame implements DocumentL
 
 				return ret;
 		    }
-
-
-
 
 
     public boolean isGridModified() {
@@ -1325,12 +1321,9 @@ public class MultiViewInternalFrame extends MyInternalFrame implements DocumentL
         return ktest.getTreeTable();
     }
 
-    public TreeTableXmlOps getTreeTableXmlOps() {
-        return ktest.getTreeTable();
-    }
-
     public String getTitle() {
         return _title;
+
     }
 
     public void setTitle(String title) {

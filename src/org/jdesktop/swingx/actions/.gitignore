@@ -1,0 +1,15 @@
+/CutUndoableEdit.class
+/DeleteAttrEdit.class
+/DeleteElementEdit.class
+/DeleteTextEdit.class
+/ExaltoUndoManager$RedoAction.class
+/ExaltoUndoManager$UndoAction.class
+/ExaltoUndoManager.class
+/InsertAttrEdit.class
+/InsertElementEdit.class
+/InsertTextEdit.class
+/PasteUndoableEdit.class
+/RenameUndoableEdit$renameConsts.class
+/RenameUndoableEdit.class
+/UndoableEditOps.class
+/UndoableModel.class

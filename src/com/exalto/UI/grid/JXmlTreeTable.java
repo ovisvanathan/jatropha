@@ -9,15 +9,17 @@
 package com.exalto.UI.grid;
 
 
-import com.exalto.ColWidthTypes;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.awt.print.PrinterException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,40 +41,36 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.undo.UndoManager;
 
 import org.jdesktop.swingx.JXTree;
-import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.w3c.dom.Document;
-
-import com.exalto.UI.TreeTableClipboard;
-import com.exalto.UI.XmlEditorActions.TreeTableXmlOps;
-
-
 import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.treetable.TreeTableModel;
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.search.Searchable;
-
-import org.jdesktop.swingx.plaf.UIAction;
-
+import org.jdesktop.swingx.TreeTableCellRenderer;
+import org.jdesktop.swingx.JXTreeTable2;
+import org.jdesktop.swingx.JXTreeTable2.Actions;
+import org.jdesktop.swingx.JXTreeTable2.TreeTableDataAdapter;
+import org.jdesktop.swingx.JXTreeTable2.TreeTableHacker;
+import org.jdesktop.swingx.JXTreeTable2.TreeTableHackerExt;
 import org.jdesktop.swingx.actions.ExaltoUndoManager;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.plaf.UIAction;
+import org.jdesktop.swingx.search.Searchable;
+import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.AttrTextEditor;
 import org.jdesktop.swingx.treetable.TreeTableCellEditor;
+import org.jdesktop.swingx.treetable.TreeTableModel;
+import org.w3c.dom.Document;
 
+import com.exalto.ColWidthTypes;
+import com.exalto.UI.TreeTableClipboard;
 import com.exalto.UI.grid.xpath.PropertyChangeObject;
-import com.exalto.UI.util.NodeMatcher;
 import com.exalto.UI.util.NodeMatcher.XPATHResult;
 import com.exalto.UI.util.SearchFactory;
 import com.exalto.util.XmlUtils;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import org.jdesktop.swingx.decorator.Highlighter;
 
 /**
  *
  * @author omprakash.v
  */
-public class JXmlTreeTable extends JXTreeTable implements TreeTableClipboard, TreeTableXmlOps, PropertyChangeListener  {
+public class JXmlTreeTable extends JXTreeTable2 implements TreeTableClipboard, PropertyChangeListener  {
 
     private XmlTreeModel domTreeModel;
     SimpleTreeModelAdapter treeTableAdapter;
@@ -296,8 +294,9 @@ public class JXmlTreeTable extends JXTreeTable implements TreeTableClipboard, Tr
             new TreeTableCellEditor(renderer));
                 
          setDefaultEditor(String.class,
-            new AttrTextEditor(renderer, this));
-            
+     //       new AttrTextEditor(renderer, this));
+        	       new AttrTextEditor(this.treeTableAdapter.getTree()));
+              
     }
     
     private class GridActions extends UIAction {
@@ -560,7 +559,7 @@ public class JXmlTreeTable extends JXTreeTable implements TreeTableClipboard, Tr
 	}
     
         
-        protected class XmlTreeTableCellRenderer extends JXTreeTable.TreeTableCellRenderer  {
+        protected class XmlTreeTableCellRenderer extends TreeTableCellRenderer  {
 
               private Icon    closedIcon = null;
 	      private Icon    openIcon = null;
@@ -885,9 +884,22 @@ public class JXmlTreeTable extends JXTreeTable implements TreeTableClipboard, Tr
 
     // PREREL A FR PRINT
         //print support
-    public void printPreview() {    	
+    public void printPreview(ActionEvent e) {    	
     	System.out.println(" inside printPreview of jxmltreetable ++++++++");
     	
+		
+
+    }
+
+    public void print(ActionEvent e) {    	
+    	System.out.println(" inside printPreview of jxmltreetable ++++++++");
+    	
+    	try {
+			super.print();
+		} catch (PrinterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 
     }

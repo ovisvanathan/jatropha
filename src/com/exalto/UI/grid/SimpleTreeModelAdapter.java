@@ -2034,6 +2034,14 @@ public class SimpleTreeModelAdapter extends JXTreeTable.TreeTableModelAdapter
 		return false;
 	}
 	
+	public JTree getTree() {
+		return atree;
+	}
+
+	public void setTree(JTree atree) {
+		this.atree = atree;
+	}
+
 	public void loadTreeExpansionState() {
 		
 		for (int i = 0; i < expandedPaths.size(); i++) {

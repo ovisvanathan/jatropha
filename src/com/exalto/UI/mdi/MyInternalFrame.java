@@ -59,7 +59,6 @@ import com.exalto.ColWidthTypes;
 import com.exalto.CustomEntityResolver;
 import com.exalto.UI.TreeTableClipboard;
 import com.exalto.UI.XmlEditor;
-import com.exalto.UI.XmlEditorActions.TreeTableXmlOps;
 import com.exalto.UI.grid.XmlKitTest;
 import com.exalto.UI.multiview.ToggleListener;
 import com.exalto.util.StatusEvent;
@@ -69,7 +68,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyInternalFrame extends JInternalFrame implements DocumentListener, KeyEventDispatcher, TreeTableClipboard, ToggleListener   {
+public class MyInternalFrame extends JInternalFrame implements DocumentListener, KeyEventDispatcher, 
+                 ToggleListener   {
 	private Editor editor;
 	private JScrollPane jsp;
 	// for caret events
@@ -1202,10 +1202,6 @@ public String saveFrame() {
     }
 
     public TreeTableClipboard getTreeTableClipboard() {
-        return ktest.getTreeTable();
-    }
-
-    public TreeTableXmlOps getTreeTableXmlOps() {
         return ktest.getTreeTable();
     }
 
